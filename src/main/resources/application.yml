@@ -1,0 +1,17 @@
+#spring.application.name=Spring_Boot_Mini_Project
+spring:
+  application:
+    name: Spring_Boot_Mini_Project
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mini_db
+    username: postgres
+    password: database09
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+      show_sql: true
