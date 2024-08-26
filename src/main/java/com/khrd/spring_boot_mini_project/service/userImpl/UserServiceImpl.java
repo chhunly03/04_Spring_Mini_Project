@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -16,7 +15,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public List<User> getAllUser() {
-        return userRepository.findAll();
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

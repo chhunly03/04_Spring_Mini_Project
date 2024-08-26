@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,19 +24,22 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<ApiResponce<List<User>>> getAllUsers() {
-        List<User> users = userService.getAllUser();
+    public ResponseEntity<ApiResponce<User>> getUserByToken() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
 
-        if (users != null && !users.isEmpty()) {
-            ApiResponce<List<User>> response = ApiResponce.<List<User>>builder()
-                    .message("Successfully retrieved users")
+        User user = userService.getUserByEmail(email);
+
+        if (user != null) {
+            ApiResponce<User> response = ApiResponce.<User>builder()
+                    .message("User successfully retrieved")
                     .status(HttpStatus.OK)
-                    .payload(users)
+                    .payload(user)
                     .build();
             return ResponseEntity.ok(response);
         } else {
-            ApiResponce<List<User>> response = ApiResponce.<List<User>>builder()
-                    .message("No users found")
+            ApiResponce<User> response = ApiResponce.<User>builder()
+                    .message("User not found")
                     .status(HttpStatus.NOT_FOUND)
                     .build();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);

@@ -1,7 +1,7 @@
 package com.khrd.spring_boot_mini_project.service.serviceImpl;
 
 import com.khrd.spring_boot_mini_project.exception.NotFoundException;
-import com.khrd.spring_boot_mini_project.service.UserImpl.FileService;
+import com.khrd.spring_boot_mini_project.service.userImpl.FileService;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
