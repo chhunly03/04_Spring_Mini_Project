@@ -1,6 +1,5 @@
 package com.khrd.spring_boot_mini_project.controller;
 
-import com.khrd.spring_boot_mini_project.model.entity.Category;
 import com.khrd.spring_boot_mini_project.model.request.category.CategoryRequest;
 import com.khrd.spring_boot_mini_project.model.response.ApiResponce;
 import com.khrd.spring_boot_mini_project.model.response.category.CategoryCreateDTO;
