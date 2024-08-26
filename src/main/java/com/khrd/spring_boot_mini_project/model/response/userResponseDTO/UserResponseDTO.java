@@ -4,6 +4,7 @@ import com.khrd.spring_boot_mini_project.model.entity.User;
 import jakarta.persistence.Column;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -16,11 +17,11 @@ public class UserResponseDTO {
     private String username;
     private String email;
     private String address;
-    private String phone_number;
+    private String phoneNumber;
     @Column(name = "date")
-    private Date create_at;
+    private LocalDateTime createAt;
     @Column(name = "update_date")
-    private Date update_at;
+    private LocalDateTime updateAt;
     private String role;
 
     public UserResponseDTO(User user) {
@@ -28,9 +29,9 @@ public class UserResponseDTO {
         this.username = user.getUsername();
         this.email = user.getEmail();
         this.address = user.getAddress();
-        this.phone_number = user.getPhoneNumber();
-        this.create_at = user.getCreateAt();
-        this.update_at = user.getUpdateAt();
+        this.phoneNumber = user.getPhoneNumber();
+        this.createAt = user.getCreateAt();
+        this.updateAt = user.getUpdateAt();
         this.role = user.getRole();
     }
 }

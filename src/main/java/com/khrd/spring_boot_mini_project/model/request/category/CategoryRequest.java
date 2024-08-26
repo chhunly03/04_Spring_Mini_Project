@@ -1,6 +1,9 @@
 package com.khrd.spring_boot_mini_project.model.request.category;
 
 import com.khrd.spring_boot_mini_project.model.entity.Category;
+import com.khrd.spring_boot_mini_project.model.entity.User;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -20,6 +23,13 @@ public class CategoryRequest {
     private String categoryName;
 
     public Category toEntity() {
-        return new Category(null, this.categoryName, null, LocalDateTime.now(), LocalDateTime.now(), null);
+        return new Category(null,
+                this.categoryName,
+                null,
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                null,
+                null
+                );
     }
 }

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -40,13 +41,13 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "date")
-    private Date createAt;
+    private LocalDateTime createAt;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "update_date")
 
-    private Date updateAt;
+    private LocalDateTime updateAt;
 
     @OneToMany (mappedBy ="user" ,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Bookmark> bookmarks;
