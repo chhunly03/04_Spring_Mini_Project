@@ -49,8 +49,8 @@ public class AuthServiceImpl implements AuthService {
         newUser.setPassword(userRequest.getPassword());
         newUser.setAddress(userRequest.getAddress());
         newUser.setPhoneNumber(userRequest.getPhoneNumber());
-        newUser.setCreate_at(new Date());
-        newUser.setUpdate_at(new Date());
+        newUser.setCreateAt(new Date());
+        newUser.setUpdateAt(new Date());
 
         String role = userRequest.getRole() != null && userRequest.getRole().equalsIgnoreCase("AUTHOR")
                 ? "AUTHOR" : "READER";

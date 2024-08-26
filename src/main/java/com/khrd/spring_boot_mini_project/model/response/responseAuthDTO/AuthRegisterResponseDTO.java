@@ -30,7 +30,7 @@ public class AuthRegisterResponseDTO {
                 user.getEmail(),
                 user.getAddress(),
                 user.getPhoneNumber(),
-                user.getCreate_at(),
+                user.getCreateAt(),
                 user.getRole()
         );
     }
