@@ -68,4 +68,9 @@ public class CommentServiceImpl implements CommentService {
 
         return commentRepository.save(comment).toResponseCreate();
     }
+
+    @Override
+    public CommentCreateDTO getCommentByArticleId(Integer id) {
+        return articleRepository.findById(id).get().toResponseCreateComment();
+    }
 }

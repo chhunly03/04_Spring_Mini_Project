@@ -12,4 +12,6 @@ public interface CommentService {
     void deleteCommentById(Integer id);
 
     CommentCreateDTO createCommentArticle(Integer id, CommentRequest x);
+
+    CommentCreateDTO getCommentByArticleId(Integer id);
 }

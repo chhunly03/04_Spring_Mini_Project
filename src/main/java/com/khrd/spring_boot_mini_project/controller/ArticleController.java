@@ -40,7 +40,11 @@ public class ArticleController {
     public ResponseEntity<?> getCommentOnArticle(
             @PathVariable @Positive Integer id
     ) {
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponce.<CommentCreateDTO>builder()
+                        .message("Successfully get all comments on article")
+                        .status(HttpStatus.OK)
+                        .payload(commentService.getCommentByArticleId(id))
+                .build());
     }
 
     @PostMapping("{id}/comment")
