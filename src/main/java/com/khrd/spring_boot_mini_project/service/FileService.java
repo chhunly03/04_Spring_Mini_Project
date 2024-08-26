@@ -1,4 +1,4 @@
-package com.khrd.spring_boot_mini_project.service.userImpl;
+package com.khrd.spring_boot_mini_project.service;
 
 import com.khrd.spring_boot_mini_project.exception.NotFoundException;
 import org.springframework.core.io.Resource;
