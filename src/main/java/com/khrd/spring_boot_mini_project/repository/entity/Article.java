@@ -1,4 +1,4 @@
-package com.khrd.spring_boot_mini_project.model.entity;
+package com.khrd.spring_boot_mini_project.repository.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.khrd.spring_boot_mini_project.model.response.articleResponseDTO.DTOResponseArticle;
@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor

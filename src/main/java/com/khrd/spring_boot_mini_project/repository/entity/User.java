@@ -1,4 +1,4 @@
-package com.khrd.spring_boot_mini_project.model.entity;
+package com.khrd.spring_boot_mini_project.repository.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.khrd.spring_boot_mini_project.model.response.userResponseDTO.UserResponseDTO;

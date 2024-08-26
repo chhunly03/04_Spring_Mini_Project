@@ -1,6 +1,6 @@
 package com.khrd.spring_boot_mini_project.model.request.category;
 
-import com.khrd.spring_boot_mini_project.model.entity.Category;
+import com.khrd.spring_boot_mini_project.repository.entity.Category;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

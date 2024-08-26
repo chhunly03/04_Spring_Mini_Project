@@ -1,10 +1,9 @@
 package com.khrd.spring_boot_mini_project.model.request.articleRequest;
 
-import com.khrd.spring_boot_mini_project.model.entity.Article;
+import com.khrd.spring_boot_mini_project.repository.entity.Article;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor

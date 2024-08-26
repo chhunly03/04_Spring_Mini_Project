@@ -1,14 +1,13 @@
 package com.khrd.spring_boot_mini_project.model.response.responseAuthDTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.khrd.spring_boot_mini_project.model.entity.User;
+import com.khrd.spring_boot_mini_project.repository.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor

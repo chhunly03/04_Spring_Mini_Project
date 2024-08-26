@@ -1,12 +1,12 @@
 package com.khrd.spring_boot_mini_project.service.serviceImpl;
 
 import com.khrd.spring_boot_mini_project.exception.BadRequestException;
-import com.khrd.spring_boot_mini_project.model.entity.*;
 import com.khrd.spring_boot_mini_project.model.request.articleRequest.ArticleRequest;
 import com.khrd.spring_boot_mini_project.model.response.articleResponseDTO.DTOResponseArticle;
 import com.khrd.spring_boot_mini_project.repository.ArticleRepository;
 import com.khrd.spring_boot_mini_project.repository.CategoryRepository;
 import com.khrd.spring_boot_mini_project.repository.UserRepository;
+import com.khrd.spring_boot_mini_project.repository.entity.*;
 import com.khrd.spring_boot_mini_project.service.ArticleService;
 import org.springframework.stereotype.Service;
 

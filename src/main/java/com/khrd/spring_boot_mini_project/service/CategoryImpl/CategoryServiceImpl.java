@@ -1,7 +1,7 @@
 package com.khrd.spring_boot_mini_project.service.CategoryImpl;
 
 import com.khrd.spring_boot_mini_project.exception.NotFoundException;
-import com.khrd.spring_boot_mini_project.model.entity.Category;
+import com.khrd.spring_boot_mini_project.repository.entity.Category;
 import com.khrd.spring_boot_mini_project.model.request.category.CategoryRequest;
 import com.khrd.spring_boot_mini_project.model.response.category.CategoryCreateDTO;
 import com.khrd.spring_boot_mini_project.model.response.category.CategoryListDTO;

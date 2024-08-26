@@ -1,11 +1,10 @@
 package com.khrd.spring_boot_mini_project.model.response.userResponseDTO;
 
-import com.khrd.spring_boot_mini_project.model.entity.User;
+import com.khrd.spring_boot_mini_project.repository.entity.User;
 import jakarta.persistence.Column;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor

@@ -2,7 +2,7 @@ package com.khrd.spring_boot_mini_project.service.AuthImpl;
 
 import com.khrd.spring_boot_mini_project.exception.BadRequestException;
 import com.khrd.spring_boot_mini_project.jwt.JwtService;
-import com.khrd.spring_boot_mini_project.model.entity.User;
+import com.khrd.spring_boot_mini_project.repository.entity.User;
 import com.khrd.spring_boot_mini_project.model.request.auth.AuthRegisterRequest;
 import com.khrd.spring_boot_mini_project.model.request.auth.AuthLoginRequest;
 import com.khrd.spring_boot_mini_project.model.response.responseAuthDTO.AuthRegisterResponseDTO;
@@ -18,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Service
 @AllArgsConstructor

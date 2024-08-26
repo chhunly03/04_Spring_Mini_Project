@@ -1,6 +1,6 @@
 package com.khrd.spring_boot_mini_project.service.serviceImpl;
 
-import com.khrd.spring_boot_mini_project.model.entity.User;
+import com.khrd.spring_boot_mini_project.repository.entity.User;
 import com.khrd.spring_boot_mini_project.model.request.userReqest.UserRequest;
 import com.khrd.spring_boot_mini_project.model.response.userResponseDTO.UserResponseDTO;
 import com.khrd.spring_boot_mini_project.repository.UserRepository;
