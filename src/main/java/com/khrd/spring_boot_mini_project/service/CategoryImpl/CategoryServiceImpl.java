@@ -1,5 +1,6 @@
 package com.khrd.spring_boot_mini_project.service.CategoryImpl;
 
+import com.khrd.spring_boot_mini_project.exception.NotFoundException;
 import com.khrd.spring_boot_mini_project.model.entity.Category;
 import com.khrd.spring_boot_mini_project.model.request.category.CategoryRequest;
 import com.khrd.spring_boot_mini_project.model.response.category.CategoryCreateDTO;
@@ -33,19 +34,28 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryListDTO getCategoryById(Integer id) {
-        return categoryRepository.findById(id).get().toResponseList();
+        if (categoryRepository.findById(id).isPresent()) {
+            return categoryRepository.findById(id).get().toResponseList();
+        }
+        throw new NotFoundException("Category id : " + id + " not found");
     }
 
     @Override
     public CategoryCreateDTO updateCategoryById(Integer id, CategoryRequest x) {
-        Category getCategory = categoryRepository.findById(id).get();
-        getCategory.setCategoryName(x.getCategoryName());
-        getCategory.setUpdatedAt(LocalDateTime.now());
-        return categoryRepository.save(getCategory).toResponseCreate();
+        if (categoryRepository.findById(id).isPresent()) {
+            Category getCategory = categoryRepository.findById(id).get();
+            getCategory.setCategoryName(x.getCategoryName());
+            getCategory.setUpdatedAt(LocalDateTime.now());
+            return categoryRepository.save(getCategory).toResponseCreate();
+        }
+        throw new NotFoundException("Category id : " + id + " not found");
     }
 
     @Override
     public void deleteCategoryById(Integer id) {
-        categoryRepository.deleteById(id);
+        if(categoryRepository.findById(id).isPresent()) {
+            categoryRepository.deleteById(id);
+        }
+        throw new NotFoundException("Category id : " + id + " not found");
     }
 }

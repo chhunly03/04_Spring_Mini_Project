@@ -5,9 +5,10 @@ import com.khrd.spring_boot_mini_project.model.request.category.CategoryRequest;
 import com.khrd.spring_boot_mini_project.model.response.ApiResponce;
 import com.khrd.spring_boot_mini_project.model.response.category.CategoryCreateDTO;
 import com.khrd.spring_boot_mini_project.model.response.category.CategoryListDTO;
-import com.khrd.spring_boot_mini_project.model.response.responseAuthDTO.AuthRegisterResponseDTO;
 import com.khrd.spring_boot_mini_project.service.CategoryService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<?> addCategory(@RequestBody CategoryRequest categoryRequest) {
+    public ResponseEntity<?> addCategory(@RequestBody @Valid CategoryRequest categoryRequest) {
         ApiResponce<?> response = ApiResponce.<CategoryCreateDTO>builder()
                 .message("Successfully created new category")
                 .status(HttpStatus.CREATED)
@@ -48,7 +49,7 @@ public class CategoryController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> getCategoryById(@PathVariable Integer id) {
+    public ResponseEntity<?> getCategoryById(@PathVariable @Positive Integer id) {
         ApiResponce<?> response = ApiResponce.<CategoryListDTO>builder()
                 .message("Successfully retrieved category with id " + id)
                 .status(HttpStatus.OK)
@@ -58,7 +59,10 @@ public class CategoryController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> updateCategoryById(@PathVariable Integer id, @RequestBody CategoryRequest categoryRequest) {
+    public ResponseEntity<?> updateCategoryById(
+            @PathVariable Integer id,
+            @RequestBody @Valid CategoryRequest categoryRequest
+    ) {
         ApiResponce<?> response = ApiResponce.<CategoryCreateDTO>builder()
                 .message("Successfully updated category with id " + id)
                 .status(HttpStatus.OK)
@@ -68,7 +72,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteCategoryById(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteCategoryById(@PathVariable @Positive Integer id) {
         categoryService.deleteCategoryById(id);
         return ResponseEntity.status(HttpStatus.OK).body("Successfully deleted category with id " + id);
     }
