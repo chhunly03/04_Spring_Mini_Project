@@ -19,7 +19,7 @@ public class CategoryRequest {
     @NotBlank
     private String categoryName;
 
-    public Category toEntity() {
-        return new Category(null, this.categoryName, null, LocalDateTime.now(), LocalDateTime.now(), null);
+    public Category toEntity(Integer amountOfArticles) {
+        return new Category(null, this.categoryName, amountOfArticles, LocalDateTime.now(), LocalDateTime.now(), null, null);
     }
 }

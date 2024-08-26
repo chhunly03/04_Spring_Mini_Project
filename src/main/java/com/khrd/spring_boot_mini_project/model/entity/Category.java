@@ -27,9 +27,6 @@ public class Category {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Category(Category id, String categoryName, Object o1, LocalDateTime now, LocalDateTime now1, Object o2) {
-    }
-
     public CategoryCreateDTO toResponseCreate() {
         return new CategoryCreateDTO(this.categoryId, this.categoryName, this.createdAt);
     }
