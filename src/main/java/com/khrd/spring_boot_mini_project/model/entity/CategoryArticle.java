@@ -31,4 +31,7 @@ public class CategoryArticle {
     @ManyToOne
     private Article article;
 
+    @ManyToOne
+    private Category category;
+
 }

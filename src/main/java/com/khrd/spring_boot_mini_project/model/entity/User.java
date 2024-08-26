@@ -45,10 +45,15 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "update_date")
+
     private Date updateAt;
 
     @OneToMany (mappedBy ="user" ,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Bookmark> bookmarks;
     @OneToMany (mappedBy = "user", fetch = FetchType.LAZY,cascade = CascadeType.ALL )
     private List<Comment>comments;
+
+    @OneToMany(mappedBy = "user")
+    private List<Category> categories;
+
 }
