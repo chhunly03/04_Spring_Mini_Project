@@ -1,6 +1,7 @@
 package com.khrd.spring_boot_mini_project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.khrd.spring_boot_mini_project.model.response.ArticleResponse;
 import com.khrd.spring_boot_mini_project.model.response.articleResponseDTO.DTOResponseArticle;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -38,16 +39,17 @@ public class Article {
 
     @ManyToOne
     private User user;
-    @OneToMany (mappedBy = "article", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany (mappedBy = "article", cascade = CascadeType.ALL)
     private List<CategoryArticle>categoryArticles;
-    @OneToMany (mappedBy = "article", fetch = FetchType.LAZY,cascade =CascadeType.ALL)
+    @OneToMany (mappedBy = "article", cascade =CascadeType.ALL)
     private List<Comment> comments;
-    @OneToMany (mappedBy = "article", fetch = FetchType.LAZY,cascade =CascadeType.ALL)
+    @OneToMany (mappedBy = "article", cascade =CascadeType.ALL)
     private List<Bookmark> bookmarks;
 
     public DTOResponseArticle dtoResponse(Integer userId){
         return new DTOResponseArticle(this.id,this.title,this.description,this.createAt,userId );
     }
+
 
 
 

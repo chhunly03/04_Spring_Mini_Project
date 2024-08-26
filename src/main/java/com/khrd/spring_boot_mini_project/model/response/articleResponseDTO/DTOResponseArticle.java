@@ -1,10 +1,12 @@
 package com.khrd.spring_boot_mini_project.model.response.articleResponseDTO;
 
 import com.khrd.spring_boot_mini_project.model.entity.Article;
+import com.khrd.spring_boot_mini_project.model.response.CommentResponse;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,6 +19,7 @@ public class DTOResponseArticle {
     private String description;
     private LocalDateTime createAt;
     private Integer ownerOfArticle;
+
 
 
     public void articleResponseDTO(Article article){
