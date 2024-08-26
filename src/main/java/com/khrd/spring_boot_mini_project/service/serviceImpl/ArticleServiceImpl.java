@@ -3,7 +3,7 @@ package com.khrd.spring_boot_mini_project.service.serviceImpl;
 import com.khrd.spring_boot_mini_project.exception.BadRequestException;
 import com.khrd.spring_boot_mini_project.model.entity.*;
 import com.khrd.spring_boot_mini_project.model.request.articleRequest.ArticleRequest;
-import com.khrd.spring_boot_mini_project.model.response.ApiResponce;
+import com.khrd.spring_boot_mini_project.model.request.commentRequest.CommentRequest;
 import com.khrd.spring_boot_mini_project.model.response.ArticleResponse;
 import com.khrd.spring_boot_mini_project.model.response.CommentResponse;
 import com.khrd.spring_boot_mini_project.model.response.articleResponseDTO.DTOResponseArticle;
@@ -116,8 +116,204 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleResponse getArticleById(Integer id) {
-        return null;
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Article not found"));
+        List<Integer> categoryIds = article.getCategoryArticles().stream()
+                .map(categoryArticle -> categoryArticle.getCategory().getCategoryId())
+                .collect(Collectors.toList());
+
+        List<CommentResponse> commentResponses = article.getComments().isEmpty() ? null :
+                article.getComments().stream().map(comment -> {
+                    User user = comment.getUser();
+                    return new CommentResponse(
+                            comment.getId(),
+                            comment.getCmt(),
+                            comment.getCreateAt(),
+                            new UserResponseDTO(
+                                    user.getUserId(),
+                                    user.getUsername(),
+                                    user.getEmail(),
+                                    user.getAddress(),
+                                    user.getPhoneNumber(),
+                                    user.getCreateAt(),
+                                    user.getUpdateAt(),
+                                    user.getRole()
+                            )
+                    );
+                }).collect(Collectors.toList());
+
+        return new ArticleResponse(
+                article.getId(),
+                article.getTitle(),
+                article.getDescription(),
+                article.getCreateAt(),
+                article.getUser().getUserId(),
+                categoryIds,
+                commentResponses
+        );
     }
+
+    @Override
+    public ArticleResponse createComment(Integer id, CommentRequest commentRequest) {
+
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Article not found"));
+        Integer userId = GetCurrentUser.userId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Comment comment = Comment.builder()
+                .cmt(commentRequest.getComment())
+                .createAt(LocalDateTime.now())
+                .article(article)
+                .user(user)
+                .build();
+        article.getComments().add(comment);
+
+        articleRepository.save(article);
+
+        List<Integer> categoryIds = article.getCategoryArticles().stream()
+                .map(categoryArticle -> categoryArticle.getCategory().getCategoryId())
+                .collect(Collectors.toList());
+
+        List<CommentResponse> commentResponses = article.getComments().stream().map(cmt -> {
+            User cmtUser = cmt.getUser();
+            return new CommentResponse(
+                    cmt.getId(),
+                    cmt.getCmt(),
+                    cmt.getCreateAt(),
+                    new UserResponseDTO(
+                            cmtUser.getUserId(),
+                            cmtUser.getUsername(),
+                            cmtUser.getEmail(),
+                            cmtUser.getAddress(),
+                            cmtUser.getPhoneNumber(),
+                            cmtUser.getCreateAt(),
+                            cmtUser.getUpdateAt(),
+                            cmtUser.getRole()
+                    )
+            );
+        }).collect(Collectors.toList());
+
+        return new ArticleResponse(
+                article.getId(),
+                article.getTitle(),
+                article.getDescription(),
+                article.getCreateAt(),
+                article.getUser().getUserId(),
+                categoryIds,
+                commentResponses
+        );
+    }
+
+    @Override
+    public ArticleResponse getCommentById(Integer id) {
+        // Find the article by its ID
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Article not found"));
+
+        List<Integer> categoryIds = article.getCategoryArticles().stream()
+                .map(categoryArticle -> categoryArticle.getCategory().getCategoryId())
+                .collect(Collectors.toList());
+
+        List<CommentResponse> commentResponses = article.getComments().stream().map(comment -> {
+            User user = comment.getUser();
+            return new CommentResponse(
+                    comment.getId(),
+                    comment.getCmt(),
+                    comment.getCreateAt(),
+                    new UserResponseDTO(
+                            user.getUserId(),
+                            user.getUsername(),
+                            user.getEmail(),
+                            user.getAddress(),
+                            user.getPhoneNumber(),
+                            user.getCreateAt(),
+                            user.getUpdateAt(),
+                            user.getRole()
+                    )
+            );
+        }).collect(Collectors.toList());
+
+        return new ArticleResponse(
+                article.getId(),
+                article.getTitle(),
+                article.getDescription(),
+                article.getCreateAt(),
+                article.getUser().getUserId(),
+                categoryIds,
+                commentResponses
+        );
+    }
+
+    @Override
+    public void deleteArticleById(Integer id) {
+        articleRepository.deleteById(id);
+
+    }
+
+    @Override
+    public ArticleResponse updateArticleById(Integer id, ArticleRequest articleRequest) {
+        // Retrieve the article from the database
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Article not found"));
+
+        // Update the article with new data
+        article.setTitle(articleRequest.getTitle());
+        article.setDescription(articleRequest.getDescription());
+        // Update other fields as needed
+
+        // Update categories
+        List<CategoryArticle> updatedCategoryArticles = new ArrayList<>();
+        for (Integer categoryId : articleRequest.getCategoryId()) {
+            Category category = categoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new RuntimeException("Category not found"));
+            CategoryArticle categoryArticle = new CategoryArticle();
+            categoryArticle.setArticle(article);
+            categoryArticle.setCategory(category);
+            updatedCategoryArticles.add(categoryArticle);
+        }
+
+        article.setCategoryArticles(updatedCategoryArticles);
+
+        // Save the updated article
+        Article updatedArticle = articleRepository.save(article);
+
+        // Convert to response DTO
+        List<Integer> categoryIds = updatedArticle.getCategoryArticles().stream()
+                .map(categoryArticle -> categoryArticle.getCategory().getCategoryId())
+                .collect(Collectors.toList());
+
+        List<CommentResponse> commentResponses = updatedArticle.getComments().stream()
+                .map(comment -> {
+                    User user = comment.getUser();
+                    return new CommentResponse(
+                            comment.getId(),
+                            comment.getCmt(),
+                            comment.getCreateAt(),
+                            new UserResponseDTO(
+                                    user.getUserId(),
+                                    user.getUsername(),
+                                    user.getEmail(),
+                                    user.getAddress(),
+                                    user.getPhoneNumber(),
+                                    user.getCreateAt(),
+                                    user.getUpdateAt(),
+                                    user.getRole()
+                            )
+                    );
+                }).collect(Collectors.toList());
+
+        return new ArticleResponse(
+                updatedArticle.getId(),
+                updatedArticle.getTitle(),
+                updatedArticle.getDescription(),
+                updatedArticle.getCreateAt(),
+                updatedArticle.getUser().getUserId(),
+                categoryIds,
+                commentResponses
+        );
+    }
+
 
 
 }

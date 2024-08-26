@@ -1,7 +1,6 @@
 package com.khrd.spring_boot_mini_project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.khrd.spring_boot_mini_project.model.response.ArticleResponse;
 import com.khrd.spring_boot_mini_project.model.response.articleResponseDTO.DTOResponseArticle;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,8 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,7 +39,7 @@ public class Article {
     @ManyToOne
     private User user;
     @OneToMany (mappedBy = "article", cascade = CascadeType.ALL)
-    private List<CategoryArticle>categoryArticles;
+    private List<CategoryArticle> categoryArticles;
     @OneToMany (mappedBy = "article", cascade =CascadeType.ALL)
     private List<Comment> comments;
     @OneToMany (mappedBy = "article", cascade =CascadeType.ALL)
@@ -49,7 +48,11 @@ public class Article {
     public DTOResponseArticle dtoResponse(Integer userId){
         return new DTOResponseArticle(this.id,this.title,this.description,this.createAt,userId );
     }
-
+//    public ArticleResponse toResponse(Integer userId){
+//        List<Integer> categoryIds = categoryArticles.stream().map(categoryArticle -> categoryArticle.getCategory().getCategoryId()).toList();
+//        return new ArticleResponse(this.id,this.title,this.description,this.createAt,userId, categoryIds, null);
+//
+//    }
 
 
 
