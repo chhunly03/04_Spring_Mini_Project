@@ -1,14 +1,13 @@
-package com.khrd.spring_boot_mini_project.repository.entity;
+package com.khrd.spring_boot_mini_project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.khrd.spring_boot_mini_project.model.response.userResponseDTO.UserResponseDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -41,32 +40,12 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "date")
-    private LocalDateTime createAt;
+    private Date create_at;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "update_date")
-
-    private LocalDateTime updateAt;
-
-    @OneToMany (mappedBy ="user" ,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private List<Bookmark> bookmarks;
-    @OneToMany (mappedBy = "user", fetch = FetchType.LAZY,cascade = CascadeType.ALL )
-    private List<Comment>comments;
-
+    private Date update_at;
     @OneToMany(mappedBy = "user")
     private List<Category> categories;
-
-    public UserResponseDTO toResponse() {
-        return new UserResponseDTO(
-             this.userId,
-             this.username,
-             this.email,
-                this.address,
-                this.phoneNumber,
-                this.createAt,
-                this.updateAt,
-                this.role
-        );
-    }
 }
