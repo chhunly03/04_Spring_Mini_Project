@@ -2,7 +2,7 @@ package com.khrd.spring_boot_mini_project.controller;
 
 import com.khrd.spring_boot_mini_project.exception.NotFoundException;
 import com.khrd.spring_boot_mini_project.model.response.FileResponse;
-import com.khrd.spring_boot_mini_project.service.UserImpl.FileService;
+import com.khrd.spring_boot_mini_project.service.userImpl.FileService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -17,7 +17,10 @@ import java.io.IOException;
 @RequestMapping("/api/v1/files")
 @AllArgsConstructor
 public class AppFileController {
+
     private final FileService fileService;
+
+
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadFile(@RequestParam MultipartFile file) throws NotFoundException, IOException {
         String fileName = fileService.saveFile(file);
