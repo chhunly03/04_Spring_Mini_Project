@@ -1,16 +1,14 @@
 package com.khrd.spring_boot_mini_project.model.response.category;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
+@Setter
+@Getter
 public class CategoryListDTO {
     private Integer categoryId;
     private String categoryName;

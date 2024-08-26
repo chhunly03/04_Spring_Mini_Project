@@ -2,7 +2,7 @@ package com.khrd.spring_boot_mini_project.service.AuthImpl;
 
 import com.khrd.spring_boot_mini_project.exception.BadRequestException;
 import com.khrd.spring_boot_mini_project.jwt.JwtService;
-import com.khrd.spring_boot_mini_project.model.entity.User;
+import com.khrd.spring_boot_mini_project.repository.entity.User;
 import com.khrd.spring_boot_mini_project.model.request.auth.AuthRegisterRequest;
 import com.khrd.spring_boot_mini_project.model.request.auth.AuthLoginRequest;
 import com.khrd.spring_boot_mini_project.model.response.responseAuthDTO.AuthRegisterResponseDTO;
@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
@@ -49,8 +49,8 @@ public class AuthServiceImpl implements AuthService {
         newUser.setPassword(userRequest.getPassword());
         newUser.setAddress(userRequest.getAddress());
         newUser.setPhoneNumber(userRequest.getPhoneNumber());
-        newUser.setCreate_at(new Date());
-        newUser.setUpdate_at(new Date());
+        newUser.setCreateAt(LocalDateTime.now());
+        newUser.setUpdateAt(LocalDateTime.now());
 
         String role = userRequest.getRole() != null && userRequest.getRole().equalsIgnoreCase("AUTHOR")
                 ? "AUTHOR" : "READER";

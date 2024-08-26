@@ -1,12 +1,9 @@
-package com.khrd.spring_boot_mini_project.model.entity;
+package com.khrd.spring_boot_mini_project.repository.entity;
 
 import com.khrd.spring_boot_mini_project.model.response.category.CategoryCreateDTO;
 import com.khrd.spring_boot_mini_project.model.response.category.CategoryListDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,7 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name = "\"category\"")
 public class Category {
@@ -36,4 +34,7 @@ public class Category {
     public CategoryListDTO toResponseList() {
         return new CategoryListDTO(this.categoryId, this.categoryName, this.amountOfArticles, this.createdAt);
     }
+
+    @OneToMany(mappedBy = "category")
+    private List<CategoryArticle>categoryArticles;
 }

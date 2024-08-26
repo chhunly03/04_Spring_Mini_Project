@@ -1,6 +1,5 @@
 package com.khrd.spring_boot_mini_project.controller;
 
-import com.khrd.spring_boot_mini_project.model.entity.User;
 import com.khrd.spring_boot_mini_project.model.request.userReqest.UserRequest;
 import com.khrd.spring_boot_mini_project.model.response.ApiResponce;
 import com.khrd.spring_boot_mini_project.model.response.userResponseDTO.UserResponseDTO;
@@ -12,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
