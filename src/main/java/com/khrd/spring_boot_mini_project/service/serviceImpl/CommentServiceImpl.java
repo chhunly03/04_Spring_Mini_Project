@@ -49,6 +49,7 @@ public class CommentServiceImpl implements CommentService {
     public void deleteCommentById(Integer id) {
         if (commentRepository.findById(id).isPresent()) {
             commentRepository.deleteById(id);
+            return;
         }
         throw new NotFoundException("Can't find comment with id " + id);
     }

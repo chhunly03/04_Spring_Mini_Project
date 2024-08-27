@@ -2,6 +2,7 @@ package com.khrd.spring_boot_mini_project.controller;
 
 import com.khrd.spring_boot_mini_project.model.request.comment.CommentRequest;
 import com.khrd.spring_boot_mini_project.model.response.ApiResponce;
+import com.khrd.spring_boot_mini_project.model.response.category.CategoryDeleteDTO;
 import com.khrd.spring_boot_mini_project.model.response.comment.CommentDTO;
 import com.khrd.spring_boot_mini_project.service.CommentService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -42,6 +43,13 @@ public class CommentController {
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteCommentById(@PathVariable @Positive Integer id) {
         commentService.deleteCommentById(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Successfully delete comment by id " + id);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ApiResponce.<CategoryDeleteDTO>builder()
+                        .message("Comment deleted")
+                        .payload(CategoryDeleteDTO.builder()
+                                .message("Successfully delete comment by id " + id)
+                                .build())
+                        .build()
+        );
     }
 }

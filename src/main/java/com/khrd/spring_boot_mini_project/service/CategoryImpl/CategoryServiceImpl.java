@@ -55,6 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
     public void deleteCategoryById(Integer id) {
         if(categoryRepository.findById(id).isPresent()) {
             categoryRepository.deleteById(id);
+            return;
         }
         throw new NotFoundException("Category id : " + id + " not found");
     }

@@ -3,6 +3,7 @@ package com.khrd.spring_boot_mini_project.controller;
 import com.khrd.spring_boot_mini_project.model.request.category.CategoryRequest;
 import com.khrd.spring_boot_mini_project.model.response.ApiResponce;
 import com.khrd.spring_boot_mini_project.model.response.category.CategoryCreateDTO;
+import com.khrd.spring_boot_mini_project.model.response.category.CategoryDeleteDTO;
 import com.khrd.spring_boot_mini_project.model.response.category.CategoryListDTO;
 import com.khrd.spring_boot_mini_project.service.CategoryService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -73,6 +74,14 @@ public class CategoryController {
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteCategoryById(@PathVariable @Positive Integer id) {
         categoryService.deleteCategoryById(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Successfully deleted category with id " + id);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ApiResponce.<CategoryDeleteDTO>builder()
+                        .status(HttpStatus.OK)
+                        .message("Deleted category")
+                        .payload(CategoryDeleteDTO.builder()
+                                .message("Successfully delete category id : " + id)
+                                .build())
+                        .build()
+        );
     }
 }
