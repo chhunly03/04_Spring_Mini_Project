@@ -18,6 +18,7 @@ public class DTOResponseArticle {
     private String title;
     private String description;
     private LocalDateTime createAt;
+    private LocalDateTime updateAt;
     private Integer ownerOfArticle;
 
 
@@ -27,6 +28,7 @@ public class DTOResponseArticle {
         this.title = article.getTitle();
         this.description = article.getDescription();
         this.createAt = article.getCreateAt();
+        this.updateAt = article.getUpdateAt();
         this.ownerOfArticle = article.getUser().getUserId();
     }
 }

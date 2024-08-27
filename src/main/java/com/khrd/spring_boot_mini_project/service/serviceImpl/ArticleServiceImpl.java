@@ -48,6 +48,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .title(articleRequest.getTitle())
                 .description(articleRequest.getDescription())
                 .createAt(LocalDateTime.now())
+                .updateAt(LocalDateTime.now())
                 .user(user)
                 .build();
 
@@ -58,6 +59,8 @@ public class ArticleServiceImpl implements ArticleService {
             CategoryArticle categoryArticle = new CategoryArticle();
             categoryArticle.setArticle(article);
             categoryArticle.setCategory(categoryList);
+            categoryArticle.setCreateAt(LocalDateTime.now());
+            categoryArticle.setUpdateAt(LocalDateTime.now());
             categoryArticles.add(categoryArticle);
 
         }

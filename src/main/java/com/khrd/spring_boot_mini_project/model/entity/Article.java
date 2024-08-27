@@ -6,10 +6,7 @@ import com.khrd.spring_boot_mini_project.model.response.articleResponseDTO.Artic
 import com.khrd.spring_boot_mini_project.model.response.articleResponseDTO.DTOResponseArticle;
 import com.khrd.spring_boot_mini_project.model.response.bookmarkResponse.BookMarkResponseDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,7 +14,8 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @Builder
 @Entity
 @Table(name ="article")
@@ -49,7 +47,7 @@ public class Article {
     private List<Bookmark> bookmarks;
 
     public DTOResponseArticle dtoResponse(Integer userId){
-        return new DTOResponseArticle(this.id,this.title,this.description,this.createAt,userId );
+        return new DTOResponseArticle(this.id,this.title,this.description,this.createAt,this.getUpdateAt(),userId );
     }
 
     public ArticleResponse toResponse(Integer userId){

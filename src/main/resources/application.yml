@@ -6,10 +6,10 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/oauth2
     username: postgres
-    password:
+    password: 1111@2222@
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
 server:
-  port: 8082
+  port: 8081

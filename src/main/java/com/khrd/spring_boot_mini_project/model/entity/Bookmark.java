@@ -27,7 +27,6 @@ public class Bookmark {
     @Column(name = "date")
     private LocalDateTime createAt;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "update_date")
     private LocalDateTime updateAt;

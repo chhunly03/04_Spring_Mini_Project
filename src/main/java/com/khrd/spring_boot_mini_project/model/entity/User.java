@@ -76,7 +76,7 @@ public class User {
                     this.address,
                     this.phoneNumber,
                     this.createdAt,
-                    LocalDateTime.now(),
+                    this.updatedAt,
                     this.role
             );
     }

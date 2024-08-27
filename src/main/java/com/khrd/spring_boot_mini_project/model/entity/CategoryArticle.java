@@ -35,5 +35,4 @@ public class CategoryArticle {
 
     @ManyToOne
     private Category category;
-
 }

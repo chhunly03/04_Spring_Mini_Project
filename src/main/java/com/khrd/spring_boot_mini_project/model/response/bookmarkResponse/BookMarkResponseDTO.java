@@ -1,8 +1,5 @@
 package com.khrd.spring_boot_mini_project.model.response.bookmarkResponse;
 
-import com.khrd.spring_boot_mini_project.model.entity.Comment;
-import com.khrd.spring_boot_mini_project.model.entity.User;
-import com.khrd.spring_boot_mini_project.model.response.userResponseDTO.UserResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

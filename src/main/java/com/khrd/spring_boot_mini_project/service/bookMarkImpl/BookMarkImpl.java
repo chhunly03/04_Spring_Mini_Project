@@ -1,13 +1,11 @@
 package com.khrd.spring_boot_mini_project.service.bookMarkImpl;
 
-import com.khrd.spring_boot_mini_project.exception.NotFoundException;
 import com.khrd.spring_boot_mini_project.exception.ResourceNotFoundException;
 import com.khrd.spring_boot_mini_project.model.entity.*;
 import com.khrd.spring_boot_mini_project.model.response.bookmarkResponse.BookMarkResponseDTO;
 import com.khrd.spring_boot_mini_project.model.userDetail.CustomUserDetails;
 import com.khrd.spring_boot_mini_project.repository.ArticleRepository;
 import com.khrd.spring_boot_mini_project.repository.BookMarkRepository;
-import com.khrd.spring_boot_mini_project.repository.UserRepository;
 import com.khrd.spring_boot_mini_project.service.BookMarkService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
