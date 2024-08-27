@@ -1,6 +1,6 @@
 package com.khrd.spring_boot_mini_project.service.serviceImpl;
-
-import com.khrd.spring_boot_mini_project.exception.BadRequestException;
+import com.khrd.spring_boot_mini_project.exception.ForbiddenException;
+import com.khrd.spring_boot_mini_project.exception.NotFoundException;
 import com.khrd.spring_boot_mini_project.model.entity.*;
 import com.khrd.spring_boot_mini_project.model.request.articleRequest.ArticleRequest;
 import com.khrd.spring_boot_mini_project.model.request.commentRequest.CommentRequest;
@@ -9,6 +9,7 @@ import com.khrd.spring_boot_mini_project.model.response.CommentResponse;
 import com.khrd.spring_boot_mini_project.model.response.articleResponseDTO.DTOResponseArticle;
 import com.khrd.spring_boot_mini_project.model.response.userResponseDTO.UserResponseDTO;
 import com.khrd.spring_boot_mini_project.repository.ArticleRepository;
+import com.khrd.spring_boot_mini_project.repository.CategoryArticleRepository;
 import com.khrd.spring_boot_mini_project.repository.CategoryRepository;
 import com.khrd.spring_boot_mini_project.repository.UserRepository;
 import com.khrd.spring_boot_mini_project.service.ArticleService;
@@ -17,7 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,20 +28,22 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
+    private final CategoryArticleRepository categoryArticleRepository;
 
-    public ArticleServiceImpl(ArticleRepository articleRepository, CategoryRepository categoryRepository, UserRepository userRepository) {
+    public ArticleServiceImpl(ArticleRepository articleRepository, CategoryRepository categoryRepository, UserRepository userRepository, CategoryArticleRepository categoryArticleRepository) {
         this.articleRepository = articleRepository;
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
+        this.categoryArticleRepository = categoryArticleRepository;
     }
 
     @Override
-    public DTOResponseArticle createArticle(ArticleRequest articleRequest) {
+    public DTOResponseArticle createArticle(ArticleRequest articleRequest) throws ForbiddenException {
         Integer userId = GetCurrentUser.userId();
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("user not found"));
         if (user.getRole().equalsIgnoreCase("READER")) {
 
-            throw new BadRequestException("Yor are not allowed to add articles");
+            throw new ForbiddenException("Yor are not allowed to add articles");
 
         }
         Article article = Article.builder()
@@ -53,7 +55,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         List<CategoryArticle> categoryArticles = new ArrayList<CategoryArticle>();
         for (Integer categoryId : articleRequest.getCategoryId()) {
-            Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("category not found"));
+            Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new NotFoundException("category not found"));
             CategoryArticle categoryArticle = new CategoryArticle();
             categoryArticle.setArticle(article);
             categoryArticle.setCategory(category);
@@ -117,7 +119,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleResponse getArticleById(Integer id) {
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Article not found"));
+                .orElseThrow(() -> new NotFoundException("Article not found"));
         List<Integer> categoryIds = article.getCategoryArticles().stream()
                 .map(categoryArticle -> categoryArticle.getCategory().getCategoryId())
                 .collect(Collectors.toList());
@@ -157,10 +159,10 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleResponse createComment(Integer id, CommentRequest commentRequest) {
 
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Article not found"));
+                .orElseThrow(() -> new NotFoundException("Article not found"));
         Integer userId = GetCurrentUser.userId();
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
         Comment comment = Comment.builder()
                 .cmt(commentRequest.getComment())
                 .createAt(LocalDateTime.now())
@@ -209,7 +211,7 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleResponse getCommentById(Integer id) {
         // Find the article by its ID
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Article not found"));
+                .orElseThrow(() -> new NotFoundException("Article not found"));
 
         List<Integer> categoryIds = article.getCategoryArticles().stream()
                 .map(categoryArticle -> categoryArticle.getCategory().getCategoryId())
@@ -246,27 +248,37 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void deleteArticleById(Integer id) {
+    public void deleteArticleById(Integer id) throws NotFoundException {
+        Integer userId = GetCurrentUser.userId();
+        checkRole(userId, "You cannot delete articles");
+        ArticleResponse articleResponse =  getArticleById(id);
+        if (!articleResponse.getOwnerOfArticle().equals(userId)) {
+            throw new NotFoundException("You cannot delete articles not found with id "+ id);
+        }
+        getArticleById(id);
         articleRepository.deleteById(id);
 
+    }
+    public void checkRole(Integer id ,String message) {
+        User user = userRepository.findById(id).orElseThrow(()->new NotFoundException("User not found"));
+        if (user.getRole().equalsIgnoreCase("READER")){
+            throw new ForbiddenException(message);
+        }
     }
 
     @Override
     public ArticleResponse updateArticleById(Integer id, ArticleRequest articleRequest) {
-        // Retrieve the article from the database
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Article not found"));
-
-        // Update the article with new data
+                .orElseThrow(() -> new NotFoundException("Article not found"));
+        categoryArticleRepository.deleteByArticleId(id);
+        article.setId(id);
         article.setTitle(articleRequest.getTitle());
         article.setDescription(articleRequest.getDescription());
-        // Update other fields as needed
 
-        // Update categories
         List<CategoryArticle> updatedCategoryArticles = new ArrayList<>();
         for (Integer categoryId : articleRequest.getCategoryId()) {
             Category category = categoryRepository.findById(categoryId)
-                    .orElseThrow(() -> new RuntimeException("Category not found"));
+                    .orElseThrow(() -> new NotFoundException("Category not found"));
             CategoryArticle categoryArticle = new CategoryArticle();
             categoryArticle.setArticle(article);
             categoryArticle.setCategory(category);
@@ -275,10 +287,9 @@ public class ArticleServiceImpl implements ArticleService {
 
         article.setCategoryArticles(updatedCategoryArticles);
 
-        // Save the updated article
+
         Article updatedArticle = articleRepository.save(article);
 
-        // Convert to response DTO
         List<Integer> categoryIds = updatedArticle.getCategoryArticles().stream()
                 .map(categoryArticle -> categoryArticle.getCategory().getCategoryId())
                 .collect(Collectors.toList());
@@ -313,7 +324,4 @@ public class ArticleServiceImpl implements ArticleService {
                 commentResponses
         );
     }
-
-
-
 }
