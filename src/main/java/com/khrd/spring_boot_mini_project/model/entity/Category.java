@@ -33,7 +33,7 @@ public class Category {
     }
 
     public CategoryListDTO toResponseList() {
-        return new CategoryListDTO(this.categoryId, this.categoryName, this.amountOfArticles, this.createdAt);
+        return new CategoryListDTO(this.categoryId, this.categoryName, this.amountOfArticles, this.createdAt, this.categoryArticles.stream().map(x -> x.getArticle().toResponseCategory()).toList());
     }
 
     @OneToMany(mappedBy = "category")

@@ -2,6 +2,7 @@ package com.khrd.spring_boot_mini_project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.khrd.spring_boot_mini_project.model.response.ArticleResponse;
+import com.khrd.spring_boot_mini_project.model.response.articleResponseDTO.ArticleCategoryDTO;
 import com.khrd.spring_boot_mini_project.model.response.articleResponseDTO.DTOResponseArticle;
 import com.khrd.spring_boot_mini_project.model.response.bookmarkResponse.BookMarkResponseDTO;
 import jakarta.persistence.*;
@@ -59,5 +60,16 @@ public class Article {
 
     public BookMarkResponseDTO toResponse(Integer ownerOfArticle, List<Integer> categoryIdList, List<Comment> commentList){
         return new BookMarkResponseDTO(this.id, this.title, this.description, this.createAt, this.updateAt, ownerOfArticle, categoryIdList, commentList.stream().map(Comment::toResponse).toList());
+    }
+
+    public ArticleCategoryDTO toResponseCategory() {
+        return new ArticleCategoryDTO(
+                this.id,
+                this.title,
+                this.description,
+                this.createAt,
+                this.user.getUserId(),
+                this.categoryArticles.stream().map(x -> x.getArticle().getId()).toList()
+        );
     }
 }
