@@ -1,7 +1,7 @@
 package com.khrd.spring_boot_mini_project.controller;
 
 import com.khrd.spring_boot_mini_project.model.request.category.CategoryRequest;
-import com.khrd.spring_boot_mini_project.model.response.ApiResponce;
+import com.khrd.spring_boot_mini_project.model.response.ApiResponse;
 import com.khrd.spring_boot_mini_project.model.response.category.CategoryCreateDTO;
 import com.khrd.spring_boot_mini_project.model.response.category.CategoryDeleteDTO;
 import com.khrd.spring_boot_mini_project.model.response.category.CategoryListDTO;
@@ -25,7 +25,7 @@ public class CategoryController {
 
     @PostMapping
     public ResponseEntity<?> addCategory(@RequestBody @Valid CategoryRequest categoryRequest) {
-        ApiResponce<?> response = ApiResponce.<CategoryCreateDTO>builder()
+        ApiResponse<?> response = ApiResponse.<CategoryCreateDTO>builder()
                 .message("Successfully created new category")
                 .status(HttpStatus.CREATED)
                 .payload(categoryService.addCategory(categoryRequest))
@@ -40,7 +40,7 @@ public class CategoryController {
             @RequestParam(defaultValue = "categoryId") String sortBy,
             @RequestParam(defaultValue = "ASC") String sortDirection
             ) {
-        ApiResponce<?> response = ApiResponce.<List<CategoryListDTO>>builder()
+        ApiResponse<?> response = ApiResponse.<List<CategoryListDTO>>builder()
                 .message("Successfully retrieved all")
                 .status(HttpStatus.OK)
                 .payload(categoryService.getAllCategory(pageNo, pageSize, sortBy, sortDirection))
@@ -50,7 +50,7 @@ public class CategoryController {
 
     @GetMapping("{id}")
     public ResponseEntity<?> getCategoryById(@PathVariable @Positive Integer id) {
-        ApiResponce<?> response = ApiResponce.<CategoryListDTO>builder()
+        ApiResponse<?> response = ApiResponse.<CategoryListDTO>builder()
                 .message("Successfully retrieved category with id " + id)
                 .status(HttpStatus.OK)
                 .payload(categoryService.getCategoryById(id))
@@ -63,7 +63,7 @@ public class CategoryController {
             @PathVariable Integer id,
             @RequestBody @Valid CategoryRequest categoryRequest
     ) {
-        ApiResponce<?> response = ApiResponce.<CategoryCreateDTO>builder()
+        ApiResponse<?> response = ApiResponse.<CategoryCreateDTO>builder()
                 .message("Successfully updated category with id " + id)
                 .status(HttpStatus.OK)
                 .payload(categoryService.updateCategoryById(id, categoryRequest))
@@ -75,7 +75,7 @@ public class CategoryController {
     public ResponseEntity<?> deleteCategoryById(@PathVariable @Positive Integer id) {
         categoryService.deleteCategoryById(id);
         return ResponseEntity.status(HttpStatus.OK).body(
-                ApiResponce.<CategoryDeleteDTO>builder()
+                ApiResponse.<CategoryDeleteDTO>builder()
                         .status(HttpStatus.OK)
                         .message("Deleted category")
                         .payload(CategoryDeleteDTO.builder()

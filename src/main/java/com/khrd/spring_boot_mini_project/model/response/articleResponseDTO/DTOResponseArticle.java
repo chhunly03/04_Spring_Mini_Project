@@ -18,6 +18,7 @@ public class DTOResponseArticle {
     private Integer ownerOfArticle;
 
 
+
     public void articleResponseDTO(Article article){
         this.id = article.getId();
         this.title = article.getTitle();

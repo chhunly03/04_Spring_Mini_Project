@@ -2,7 +2,7 @@ package com.khrd.spring_boot_mini_project.controller;
 
 import com.khrd.spring_boot_mini_project.model.request.auth.AuthRegisterRequest;
 import com.khrd.spring_boot_mini_project.model.request.auth.AuthLoginRequest;
-import com.khrd.spring_boot_mini_project.model.response.ApiResponce;
+import com.khrd.spring_boot_mini_project.model.response.ApiResponse;
 import com.khrd.spring_boot_mini_project.model.response.responseAuthDTO.AuthLoginResponseDTO;
 import com.khrd.spring_boot_mini_project.model.response.responseAuthDTO.AuthRegisterResponseDTO;
 import com.khrd.spring_boot_mini_project.service.AuthService;
@@ -23,11 +23,11 @@ public class AuthenticationController {
 
     @Operation(summary = "User registration")
     @PostMapping("/register")
-    public ResponseEntity<ApiResponce<AuthRegisterResponseDTO>> register(@RequestBody AuthRegisterRequest request) {
+    public ResponseEntity<ApiResponse<AuthRegisterResponseDTO>> register(@RequestBody AuthRegisterRequest request) {
         try {
             AuthRegisterResponseDTO user = authService.register(request);
 
-            ApiResponce<AuthRegisterResponseDTO> response = ApiResponce.<AuthRegisterResponseDTO>builder()
+            ApiResponse<AuthRegisterResponseDTO> response = ApiResponse.<AuthRegisterResponseDTO>builder()
                     .message("User created successfully")
                     .status(HttpStatus.CREATED)
                     .payload(user)
@@ -35,7 +35,7 @@ public class AuthenticationController {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
-            ApiResponce<AuthRegisterResponseDTO> response = ApiResponce.<AuthRegisterResponseDTO>builder()
+            ApiResponse<AuthRegisterResponseDTO> response = ApiResponse.<AuthRegisterResponseDTO>builder()
                     .message("User creation failed")
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .build();
@@ -46,13 +46,13 @@ public class AuthenticationController {
 
     @Operation(summary = "User login")
     @PostMapping("/login")
-    public ResponseEntity<ApiResponce<AuthLoginResponseDTO>> login(@RequestBody AuthLoginRequest request) {
+    public ResponseEntity<ApiResponse<AuthLoginResponseDTO>> login(@RequestBody AuthLoginRequest request) {
         try {
             String token = authService.login(request, authenticationManager);
 
             AuthLoginResponseDTO loginResponseDTO = new AuthLoginResponseDTO(token);
 
-            ApiResponce<AuthLoginResponseDTO> response = ApiResponce.<AuthLoginResponseDTO>builder()
+            ApiResponse<AuthLoginResponseDTO> response = ApiResponse.<AuthLoginResponseDTO>builder()
                     .message("Successfully logged in")
                     .status(HttpStatus.OK)
                     .payload(loginResponseDTO)
@@ -60,7 +60,7 @@ public class AuthenticationController {
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            ApiResponce<AuthLoginResponseDTO> response = ApiResponce.<AuthLoginResponseDTO>builder()
+            ApiResponse<AuthLoginResponseDTO> response = ApiResponse.<AuthLoginResponseDTO>builder()
                     .message("Login failed")
                     .status(HttpStatus.UNAUTHORIZED)
                     .build();

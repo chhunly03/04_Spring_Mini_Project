@@ -1,7 +1,7 @@
 package com.khrd.spring_boot_mini_project.controller;
 
 import com.khrd.spring_boot_mini_project.model.request.comment.CommentRequest;
-import com.khrd.spring_boot_mini_project.model.response.ApiResponce;
+import com.khrd.spring_boot_mini_project.model.response.ApiResponse;
 import com.khrd.spring_boot_mini_project.model.response.category.CategoryDeleteDTO;
 import com.khrd.spring_boot_mini_project.model.response.comment.CommentDTO;
 import com.khrd.spring_boot_mini_project.service.CommentService;
@@ -22,7 +22,7 @@ public class CommentController {
 
     @GetMapping("{id}")
     public ResponseEntity<?> getCommentById(@PathVariable @Positive Integer id) {
-        ApiResponce<?> res = ApiResponce.<CommentDTO>builder()
+        ApiResponse<?> res = ApiResponse.<CommentDTO>builder()
                 .message("Successfully get comment id : " + id)
                 .status(HttpStatus.OK)
                 .payload(commentService.getCommentById(id))
@@ -32,7 +32,7 @@ public class CommentController {
 
     @PutMapping("{id}")
     public ResponseEntity<?> updateCommentById(@PathVariable @Positive Integer id, @RequestBody @Valid CommentRequest x) {
-        ApiResponce<?> res = ApiResponce.<CommentDTO>builder()
+        ApiResponse<?> res = ApiResponse.<CommentDTO>builder()
                 .message("Successfully update comment id : " + id)
                 .status(HttpStatus.OK)
                 .payload(commentService.updateCommentById(id, x))
@@ -44,7 +44,7 @@ public class CommentController {
     public ResponseEntity<?> deleteCommentById(@PathVariable @Positive Integer id) {
         commentService.deleteCommentById(id);
         return ResponseEntity.status(HttpStatus.OK).body(
-                ApiResponce.<CategoryDeleteDTO>builder()
+                ApiResponse.<CategoryDeleteDTO>builder()
                         .message("Comment deleted")
                         .payload(CategoryDeleteDTO.builder()
                                 .message("Successfully delete comment by id " + id)

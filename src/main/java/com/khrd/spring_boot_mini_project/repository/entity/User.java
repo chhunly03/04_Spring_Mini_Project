@@ -49,9 +49,9 @@ public class User {
 
     private LocalDateTime updateAt;
 
-    @OneToMany (mappedBy ="user" ,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany (mappedBy ="user" ,cascade = CascadeType.ALL)
     private List<Bookmark> bookmarks;
-    @OneToMany (mappedBy = "user", fetch = FetchType.LAZY,cascade = CascadeType.ALL )
+    @OneToMany (mappedBy = "user",cascade = CascadeType.ALL )
     private List<Comment>comments;
 
     @OneToMany(mappedBy = "user")

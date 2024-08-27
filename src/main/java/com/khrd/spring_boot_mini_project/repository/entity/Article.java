@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -39,16 +40,21 @@ public class Article {
 
     @ManyToOne
     private User user;
-    @OneToMany (mappedBy = "article", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private List<CategoryArticle>categoryArticles;
-    @OneToMany (mappedBy = "article", fetch = FetchType.LAZY,cascade =CascadeType.ALL)
+    @OneToMany (mappedBy = "article", cascade = CascadeType.ALL)
+    private List<CategoryArticle> categoryArticles;
+    @OneToMany (mappedBy = "article", cascade =CascadeType.ALL)
     private List<Comment> comments;
-    @OneToMany (mappedBy = "article", fetch = FetchType.LAZY,cascade =CascadeType.ALL)
+    @OneToMany (mappedBy = "article", cascade =CascadeType.ALL)
     private List<Bookmark> bookmarks;
 
     public DTOResponseArticle dtoResponse(Integer userId){
         return new DTOResponseArticle(this.id,this.title,this.description,this.createAt,userId );
     }
+//    public ArticleResponse toResponse(Integer userId){
+//        List<Integer> categoryIds = categoryArticles.stream().map(categoryArticle -> categoryArticle.getCategory().getCategoryId()).toList();
+//        return new ArticleResponse(this.id,this.title,this.description,this.createAt,userId, categoryIds, null);
+//
+//    }
 
     public CommentCreateDTO toResponseCreateComment() {
         return new CommentCreateDTO(
