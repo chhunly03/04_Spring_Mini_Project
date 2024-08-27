@@ -2,6 +2,7 @@ package com.khrd.spring_boot_mini_project.model.userDetail;
 
 import com.khrd.spring_boot_mini_project.model.entity.User;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Getter
+@Setter
 public class CustomUserDetails implements UserDetails {
 
     private final User user; // Your custom User entity
@@ -50,5 +52,9 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Integer getUserId(){
+        return user.getUserId();
     }
 }

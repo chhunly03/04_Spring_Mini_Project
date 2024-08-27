@@ -1,13 +1,12 @@
 package com.khrd.spring_boot_mini_project.service.serviceImpl;
 
 import com.khrd.spring_boot_mini_project.exception.NotFoundException;
-import com.khrd.spring_boot_mini_project.service.userImpl.FileService;
+import com.khrd.spring_boot_mini_project.service.FileService;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

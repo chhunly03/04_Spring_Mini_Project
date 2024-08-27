@@ -2,7 +2,7 @@ package com.khrd.spring_boot_mini_project.controller;
 
 import com.khrd.spring_boot_mini_project.exception.NotFoundException;
 import com.khrd.spring_boot_mini_project.model.response.FileResponse;
-import com.khrd.spring_boot_mini_project.service.userImpl.FileService;
+import com.khrd.spring_boot_mini_project.service.FileService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;

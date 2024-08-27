@@ -1,5 +1,6 @@
 package com.khrd.spring_boot_mini_project.configuration;
 
+import com.khrd.spring_boot_mini_project.jwt.JwtAuthEntrypoint;
 import com.khrd.spring_boot_mini_project.jwt.JwtAuthFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableMethodSecurity
 public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -29,13 +31,18 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, JwtAuthEntrypoint jwtAuthEntrypoint) throws Exception {
         httpSecurity
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register").permitAll()
-                        .requestMatchers("/api/v1/user").hasAuthority("AUTHOR")
+                        .requestMatchers("/api/v1/user").hasAnyAuthority("READER", "AUTHOR")
+                        .requestMatchers("/api/v1/bookmark/**").hasAnyAuthority("READER", "AUTHOR")
+                        .requestMatchers("/api/v1/files").permitAll()
+                        .requestMatchers("/api/v1/comment/**").permitAll()
+                        .requestMatchers("/api/v1/category/**").hasAnyAuthority("AUTHOR")
+                        .requestMatchers("/api/v1/article/**").permitAll()
                         .requestMatchers("/api/v1/files").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())

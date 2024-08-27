@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -20,7 +21,7 @@ public class AuthRegisterResponseDTO {
     private String address;
     private String phoneNumber;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date createdAt;
+    private LocalDateTime createdAt;
     private String role;
 
     public static AuthRegisterResponseDTO fromUser(User user) {
@@ -30,7 +31,7 @@ public class AuthRegisterResponseDTO {
                 user.getEmail(),
                 user.getAddress(),
                 user.getPhoneNumber(),
-                user.getCreate_at(),
+                user.getCreatedAt(),
                 user.getRole()
         );
     }
