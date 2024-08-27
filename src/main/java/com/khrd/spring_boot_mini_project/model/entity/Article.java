@@ -1,7 +1,9 @@
 package com.khrd.spring_boot_mini_project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.khrd.spring_boot_mini_project.model.response.ArticleResponse;
 import com.khrd.spring_boot_mini_project.model.response.articleResponseDTO.DTOResponseArticle;
+import com.khrd.spring_boot_mini_project.model.response.bookmarkResponse.BookMarkResponseDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,13 +50,14 @@ public class Article {
     public DTOResponseArticle dtoResponse(Integer userId){
         return new DTOResponseArticle(this.id,this.title,this.description,this.createAt,userId );
     }
-//    public ArticleResponse toResponse(Integer userId){
-//        List<Integer> categoryIds = categoryArticles.stream().map(categoryArticle -> categoryArticle.getCategory().getCategoryId()).toList();
-//        return new ArticleResponse(this.id,this.title,this.description,this.createAt,userId, categoryIds, null);
-//
-//    }
 
+    public ArticleResponse toResponse(Integer userId){
+        List<Integer> categoryIds = categoryArticles.stream().map(categoryArticle -> categoryArticle.getCategory().getCategoryId()).toList();
+        return new ArticleResponse(this.id,this.title,this.description,this.createAt,userId, categoryIds, null);
 
+    }
 
-
+    public BookMarkResponseDTO toResponse(Integer ownerOfArticle, List<Integer> categoryIdList, List<Comment> commentList){
+        return new BookMarkResponseDTO(this.id, this.title, this.description, this.createAt, this.updateAt, ownerOfArticle, categoryIdList, commentList.stream().map(Comment::toResponse).toList());
+    }
 }

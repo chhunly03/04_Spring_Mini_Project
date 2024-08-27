@@ -1,18 +1,18 @@
 package com.khrd.spring_boot_mini_project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.khrd.spring_boot_mini_project.model.response.bookmarkResponse.CommentListDTO;
+import com.khrd.spring_boot_mini_project.model.response.userResponseDTO.UserResponseDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 @Entity
 @Table(name ="comment")
@@ -33,9 +33,22 @@ public class Comment {
     @Column(name = "update_date")
     private LocalDateTime updateAt;
     @ManyToOne
+    @JsonIgnore
     private Article article;
     @ManyToOne
+    @JsonIgnore
     private User user;
 
+    public Comment(Integer id, String cmt, LocalDateTime createAt, User user) {
+    }
+
+    public CommentListDTO toResponse() {
+        return new CommentListDTO(
+              this.id,
+              this.cmt,
+              this.createAt,
+              this.user.toResponseD()
+        );
+    }
 
 }

@@ -96,8 +96,8 @@ public class ArticleServiceImpl implements ArticleService {
                                 user.getEmail(),
                                 user.getAddress(),
                                 user.getPhoneNumber(),
-                                user.getCreateAt(),
-                                user.getUpdateAt(),
+                                user.getCreatedAt(),
+                                user.getUpdatedAt(),
                                 user.getRole()
                         )
                 );
@@ -137,8 +137,8 @@ public class ArticleServiceImpl implements ArticleService {
                                     user.getEmail(),
                                     user.getAddress(),
                                     user.getPhoneNumber(),
-                                    user.getCreateAt(),
-                                    user.getUpdateAt(),
+                                    user.getCreatedAt(),
+                                    user.getUpdatedAt(),
                                     user.getRole()
                             )
                     );
@@ -189,8 +189,8 @@ public class ArticleServiceImpl implements ArticleService {
                             cmtUser.getEmail(),
                             cmtUser.getAddress(),
                             cmtUser.getPhoneNumber(),
-                            cmtUser.getCreateAt(),
-                            cmtUser.getUpdateAt(),
+                            cmtUser.getCreatedAt(),
+                            cmtUser.getUpdatedAt(),
                             cmtUser.getRole()
                     )
             );
@@ -229,8 +229,8 @@ public class ArticleServiceImpl implements ArticleService {
                             user.getEmail(),
                             user.getAddress(),
                             user.getPhoneNumber(),
-                            user.getCreateAt(),
-                            user.getUpdateAt(),
+                            user.getCreatedAt(),
+                            user.getUpdatedAt(),
                             user.getRole()
                     )
             );
@@ -307,8 +307,8 @@ public class ArticleServiceImpl implements ArticleService {
                                     user.getEmail(),
                                     user.getAddress(),
                                     user.getPhoneNumber(),
-                                    user.getCreateAt(),
-                                    user.getUpdateAt(),
+                                    user.getCreatedAt(),
+                                    user.getUpdatedAt(),
                                     user.getRole()
                             )
                     );

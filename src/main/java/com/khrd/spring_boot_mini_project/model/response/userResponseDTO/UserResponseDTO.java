@@ -30,8 +30,8 @@ public class UserResponseDTO {
         this.email = user.getEmail();
         this.address = user.getAddress();
         this.phoneNumber = user.getPhoneNumber();
-        this.createAt = user.getCreateAt();
-        this.updateAt = user.getUpdateAt();
+        this.createAt = user.getCreatedAt();
+        this.updateAt = user.getUpdatedAt();
         this.role = user.getRole();
     }
 }

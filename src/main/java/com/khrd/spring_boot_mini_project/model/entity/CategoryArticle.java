@@ -1,6 +1,7 @@
 package com.khrd.spring_boot_mini_project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,9 +31,11 @@ public class CategoryArticle {
     @Column(name = "update_date")
     private LocalDateTime updateAt;
     @ManyToOne
+    @JsonIgnore
     private Article article;
 
     @ManyToOne
+    @JsonIgnore
     private Category category;
 
 }

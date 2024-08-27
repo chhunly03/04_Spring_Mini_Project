@@ -18,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Service
 @AllArgsConstructor
@@ -50,8 +49,9 @@ public class AuthServiceImpl implements AuthService {
         newUser.setPassword(userRequest.getPassword());
         newUser.setAddress(userRequest.getAddress());
         newUser.setPhoneNumber(userRequest.getPhoneNumber());
-        newUser.setCreateAt(LocalDateTime.now());
-        newUser.setUpdateAt(LocalDateTime.now());
+
+        newUser.setCreatedAt(LocalDateTime.now());
+        newUser.setUpdatedAt(LocalDateTime.now());
 
         String role = userRequest.getRole() != null && userRequest.getRole().equalsIgnoreCase("AUTHOR")
                 ? "AUTHOR" : "READER";

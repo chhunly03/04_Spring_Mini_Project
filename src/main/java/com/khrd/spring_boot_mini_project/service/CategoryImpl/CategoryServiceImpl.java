@@ -23,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryCreateDTO addCategory(CategoryRequest categoryRequest) {
-        return categoryRepository.save(categoryRequest.toEntity()).toResponseCreate();
+        return categoryRepository.save(categoryRequest.toEntity(0)).toResponseCreate();
     }
 
     @Override
