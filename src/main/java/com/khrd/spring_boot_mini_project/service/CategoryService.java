@@ -6,7 +6,6 @@ import com.khrd.spring_boot_mini_project.model.response.category.CategoryListDTO
 
 import java.util.List;
 
-
 public interface CategoryService {
     CategoryCreateDTO addCategory(CategoryRequest categoryRequest);
 

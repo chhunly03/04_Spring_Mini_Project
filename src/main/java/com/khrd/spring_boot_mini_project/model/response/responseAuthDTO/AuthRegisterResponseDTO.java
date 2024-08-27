@@ -1,13 +1,13 @@
 package com.khrd.spring_boot_mini_project.model.response.responseAuthDTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.khrd.spring_boot_mini_project.repository.entity.User;
+import com.khrd.spring_boot_mini_project.model.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +20,7 @@ public class AuthRegisterResponseDTO {
     private String address;
     private String phoneNumber;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDateTime createdAt;
+    private Date createdAt;
     private String role;
 
     public static AuthRegisterResponseDTO fromUser(User user) {
@@ -30,7 +30,7 @@ public class AuthRegisterResponseDTO {
                 user.getEmail(),
                 user.getAddress(),
                 user.getPhoneNumber(),
-                user.getCreateAt(),
+                user.getCreate_at(),
                 user.getRole()
         );
     }

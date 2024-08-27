@@ -1,6 +1,6 @@
 package com.khrd.spring_boot_mini_project.model.userDetail;
 
-import com.khrd.spring_boot_mini_project.repository.entity.User;
+import com.khrd.spring_boot_mini_project.model.entity.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,8 +31,6 @@ public class CustomUserDetails implements UserDetails {
     public String getUsername() {
         return user.getEmail();
     }
-
-    public Integer getUserId() {return user.getUserId();}
 
     @Override
     public boolean isAccountNonExpired() {
