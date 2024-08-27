@@ -6,14 +6,17 @@ import com.khrd.spring_boot_mini_project.model.request.commentRequest.CommentReq
 import com.khrd.spring_boot_mini_project.model.response.ApiResponse;
 import com.khrd.spring_boot_mini_project.model.response.ArticleResponse;
 import com.khrd.spring_boot_mini_project.model.response.articleResponseDTO.DTOResponseArticle;
+import com.khrd.spring_boot_mini_project.model.userDetail.CustomUserDetails;
 import com.khrd.spring_boot_mini_project.service.ArticleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
@@ -24,12 +27,13 @@ import java.util.List;
 @Data
 @RequestMapping("/api/v1")
 @SecurityRequirement(name = "bearerAuth")
+
 public class ArticleController {
     private final ArticleService articleService;
 
     @PostMapping("/author/article")
     @Operation(summary = "Create a new article")
-    public ResponseEntity<ApiResponse<DTOResponseArticle>> createArticle(@RequestBody ArticleRequest articleRequest) throws ForbiddenException {
+    public ResponseEntity<ApiResponse<DTOResponseArticle>> createArticle(@Valid  @RequestBody ArticleRequest articleRequest, @AuthenticationPrincipal CustomUserDetails customUserDetails) throws ForbiddenException {
         DTOResponseArticle dtoResponseArticle =articleService.createArticle(articleRequest);
         ApiResponse<DTOResponseArticle> apiResponse = ApiResponse.<DTOResponseArticle>builder()
                 .message("A new article is created successfully.")
@@ -94,7 +98,7 @@ public class ArticleController {
     public ResponseEntity<ApiResponse<ArticleResponse>> deleteArticleById(@Positive(message = "must be greater than 0 or must be positive") @PathVariable Integer id) throws FontFormatException {
         articleService.deleteArticleById(id);
         ApiResponse <ArticleResponse>apiResponse = ApiResponse.<ArticleResponse>builder()
-                .message("Delete a product by id " + id + " successfully")
+                .message("Delete a article by id " + id + " successfully")
                 .status(HttpStatus.OK)
                 .build();
         return ResponseEntity.ok(apiResponse);
