@@ -1,7 +1,17 @@
 package com.khrd.spring_boot_mini_project.repository;
 
 import com.khrd.spring_boot_mini_project.repository.entity.Category;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.awt.print.Pageable;
+import java.util.List;
 
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
+    @Query("SELECT b FROM Category b WHERE b.user.userId = :userId")
+    List<Category> findAllCategoryByUserId(Integer userId, PageRequest pageRequest);
+
+    @Query("SELECT b FROM Category b WHERE b.categoryId = :cateId AND b.user.userId = :userId")
+    Category findCategoryIdByUserId(Integer cateId, Integer userId);
 }
