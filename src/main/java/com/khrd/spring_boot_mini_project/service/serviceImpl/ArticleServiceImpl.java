@@ -59,9 +59,11 @@ public class ArticleServiceImpl implements ArticleService {
             categoryArticle.setCategory(category);
             categoryArticles.add(categoryArticle);
 
+            //add one to each category amountOfArticles field
+            Category categoryCatch = categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("Can't find category id"));
+            categoryCatch.setAmountOfArticles(categoryCatch.getAmountOfArticles() + 1);
+            categoryRepository.save(categoryCatch);
         }
-
-
 
         categoryArticles.forEach(categoryArticle -> categoryArticle.setArticle(article));
         article.setCategoryArticles(categoryArticles);
