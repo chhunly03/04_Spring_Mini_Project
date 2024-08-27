@@ -4,16 +4,12 @@ spring:
   application:
     name: Spring_Boot_Mini_Project
   datasource:
-    url: jdbc:postgresql://localhost:5432/mini_db
+    url: jdbc:postgresql://localhost:5432/oauth2
     username: postgres
-
-    password: database09
-
+    password: 1111@2222@
     driver-class-name: org.postgresql.Driver
-
   jpa:
     hibernate:
-      ddl-auto: update
-
+      ddl-auto: create-drop
 server:
   port: 8081

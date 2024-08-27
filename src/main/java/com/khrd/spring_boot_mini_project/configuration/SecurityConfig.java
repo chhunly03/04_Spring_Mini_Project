@@ -35,10 +35,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register").permitAll()
-                        .requestMatchers("/api/v1/user").hasAuthority("AUTHOR")
-                        .requestMatchers("/api/v1/user").hasAuthority("READER")
+                        .requestMatchers("/api/v1/user").hasAnyAuthority("READER", "AUTHOR")
+                        .requestMatchers("/api/v1/bookmark/").hasAnyAuthority("READER", "AUTHOR")
                         .requestMatchers("/api/v1/files").permitAll()
-                        .requestMatchers("/api/v1/category").permitAll()
+                        .requestMatchers("/api/v1/category").hasAnyAuthority("READER", "AUTHOR")
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session

@@ -1,12 +1,14 @@
 package com.khrd.spring_boot_mini_project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.khrd.spring_boot_mini_project.model.response.userResponseDTO.UserResponseDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -40,13 +42,12 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "date")
-    private Date createAt;
+    private LocalDateTime createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "update_date")
-
-    private Date updateAt;
+    private LocalDateTime updatedAt;
 
     @OneToMany (mappedBy ="user" ,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Bookmark> bookmarks;
@@ -56,4 +57,16 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Category> categories;
 
+    public UserResponseDTO toResponseD() {
+            return new UserResponseDTO(
+                    this.userId,
+                    this.username,
+                    this.email,
+                    this.address,
+                    this.phoneNumber,
+                    this.createdAt,
+                    LocalDateTime.now(),
+                    this.role
+            );
+    }
 }
