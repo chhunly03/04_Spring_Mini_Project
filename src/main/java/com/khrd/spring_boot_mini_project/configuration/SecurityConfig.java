@@ -41,7 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/bookmark/**").hasAnyAuthority("READER", "AUTHOR")
                         .requestMatchers("/api/v1/files").permitAll()
                         .requestMatchers("/api/v1/comment/**").permitAll()
-                        .requestMatchers("/api/v1/category/**").hasRole("AUTHOR")
+                        .requestMatchers("/api/v1/category/**").hasAnyAuthority("AUTHOR")
                         .requestMatchers("/api/v1/article/**").permitAll()
                         .requestMatchers("/api/v1/files").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()

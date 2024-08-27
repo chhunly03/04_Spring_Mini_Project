@@ -3,6 +3,7 @@ package com.khrd.spring_boot_mini_project.model.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.khrd.spring_boot_mini_project.model.response.bookmarkResponse.CommentListDTO;
+import com.khrd.spring_boot_mini_project.model.response.comment.CommentDTO;
 import com.khrd.spring_boot_mini_project.model.response.userResponseDTO.UserResponseDTO;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,6 +41,15 @@ public class Comment {
     private User user;
 
     public Comment(Integer id, String cmt, LocalDateTime createAt, User user) {
+    }
+
+    public CommentDTO toResponseV1() {
+        return new CommentDTO(
+                this.id,
+                this.cmt,
+                this.createAt,
+                this.user.toResponseD()
+        );
     }
 
     public CommentListDTO toResponse() {
