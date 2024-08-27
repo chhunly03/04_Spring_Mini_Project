@@ -28,7 +28,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDTO getCommentById(Integer id) {
-        if (commentRepository.findById(id).isPresent()) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        Integer getUser = customUserDetails.getUserId();
+        if (commentRepository.findCommentIdByUserId(id, getUser) != null) {
             return commentRepository.findById(id).get().toResponse();
         }
         throw new NotFoundException("Can't find comment with id " + id);
@@ -36,7 +39,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDTO updateCommentById(Integer id, CommentRequest x) {
-        if (commentRepository.findById(id).isPresent()) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        Integer getUser = customUserDetails.getUserId();
+        if (commentRepository.findCommentIdByUserId(id, getUser) != null) {
             Comment comment = commentRepository.findById(id).get();
             comment.setCmt(x.getComment());
             comment.setUpdateAt(LocalDateTime.now());
@@ -47,7 +53,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void deleteCommentById(Integer id) {
-        if (commentRepository.findById(id).isPresent()) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        Integer getUser = customUserDetails.getUserId();
+        if (commentRepository.findCommentIdByUserId(id, getUser) != null) {
             commentRepository.deleteById(id);
             return;
         }
