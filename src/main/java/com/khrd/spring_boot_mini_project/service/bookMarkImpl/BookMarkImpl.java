@@ -1,6 +1,7 @@
 package com.khrd.spring_boot_mini_project.service.bookMarkImpl;
 
 import com.khrd.spring_boot_mini_project.exception.NotFoundException;
+import com.khrd.spring_boot_mini_project.exception.ResourceNotFoundException;
 import com.khrd.spring_boot_mini_project.model.entity.*;
 import com.khrd.spring_boot_mini_project.model.response.bookmarkResponse.BookMarkResponseDTO;
 import com.khrd.spring_boot_mini_project.model.userDetail.CustomUserDetails;
@@ -24,7 +25,6 @@ import java.util.Optional;
 @Service
 public class BookMarkImpl implements BookMarkService {
     private final BookMarkRepository bookMarkRepository;
-    private final UserRepository userRepository;
     private final ArticleRepository articleRepository;
 
     @Override
@@ -58,7 +58,7 @@ public class BookMarkImpl implements BookMarkService {
     public Bookmark createBookMark(Integer articleId) {
         Optional<Article> optionalArticle = articleRepository.findById(articleId);
         if (optionalArticle.isEmpty()) {
-            System.out.println("hello");
+            throw new ResourceNotFoundException("Article id " + articleId + " not found.");
         }
 
         Article article = optionalArticle.get();
@@ -84,7 +84,9 @@ public class BookMarkImpl implements BookMarkService {
             mark.setStatus(false);
             return bookMarkRepository.save(mark);
         }
-        throw new NotFoundException("Can't find bookmark with id " + bookmarkId);
+        else  {
+            throw new ResourceNotFoundException("BookMark id " + bookmarkId + " not found.");
+        }
     }
 
 

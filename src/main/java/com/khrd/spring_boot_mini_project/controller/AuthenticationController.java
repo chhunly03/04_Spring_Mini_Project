@@ -7,6 +7,7 @@ import com.khrd.spring_boot_mini_project.model.response.responseAuthDTO.AuthLogi
 import com.khrd.spring_boot_mini_project.model.response.responseAuthDTO.AuthRegisterResponseDTO;
 import com.khrd.spring_boot_mini_project.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,9 @@ public class AuthenticationController {
     private final AuthService authService;
     private final AuthenticationManager authenticationManager;
 
-    @Operation(summary = "User registration")
+    @Operation(summary = "Register as a new user")
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<AuthRegisterResponseDTO>> register(@RequestBody AuthRegisterRequest request) {
+    public ResponseEntity<ApiResponse<AuthRegisterResponseDTO>> register(@Valid @RequestBody AuthRegisterRequest request) {
         try {
             AuthRegisterResponseDTO user = authService.register(request);
 
@@ -44,7 +45,7 @@ public class AuthenticationController {
         }
     }
 
-    @Operation(summary = "User login")
+    @Operation(summary = "Login via credentials to get token")
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<AuthLoginResponseDTO>> login(@RequestBody AuthLoginRequest request) {
         try {

@@ -4,6 +4,7 @@ import com.khrd.spring_boot_mini_project.model.request.userReqest.UserRequest;
 import com.khrd.spring_boot_mini_project.model.response.ApiResponse;
 import com.khrd.spring_boot_mini_project.model.response.userResponseDTO.UserResponseDTO;
 import com.khrd.spring_boot_mini_project.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

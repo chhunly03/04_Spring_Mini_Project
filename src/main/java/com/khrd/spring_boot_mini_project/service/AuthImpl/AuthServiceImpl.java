@@ -29,7 +29,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthRegisterResponseDTO register(AuthRegisterRequest authRequest) {
-        System.out.println(authRequest);
         if (userRepository.findByEmail(authRequest.getEmail()) != null) {
             throw new BadRequestException("Email is already in use.");
         }
