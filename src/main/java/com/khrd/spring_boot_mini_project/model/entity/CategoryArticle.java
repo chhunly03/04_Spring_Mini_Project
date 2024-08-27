@@ -31,11 +31,9 @@ public class CategoryArticle {
     @Column(name = "update_date")
     private LocalDateTime updateAt;
     @ManyToOne
-    @JsonIgnore
     private Article article;
 
     @ManyToOne
-    @JsonIgnore
     private Category category;
 
 }

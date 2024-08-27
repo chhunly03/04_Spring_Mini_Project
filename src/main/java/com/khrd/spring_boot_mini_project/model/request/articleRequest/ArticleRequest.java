@@ -1,10 +1,8 @@
 package com.khrd.spring_boot_mini_project.model.request.articleRequest;
 
-import com.khrd.spring_boot_mini_project.model.entity.Article;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -13,14 +11,12 @@ import java.util.List;
 @Getter
 @Builder
 public class ArticleRequest {
+    @NotBlank(message = "Title cannot be empty")
+    @NotNull
     private String title;
+    @NotBlank(message = "Description cannot be empty")
+    @NotNull
     private String description;
     private List<Integer> CategoryId;
-
-public Article toArticleEntry() {
-    return new Article(null,this.title,this.description, LocalDateTime.now(),LocalDateTime.now(),null,null,null, null);
-
-}
-
 
 }
