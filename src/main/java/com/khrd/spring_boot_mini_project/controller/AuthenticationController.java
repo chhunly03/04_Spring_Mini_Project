@@ -25,24 +25,15 @@ public class AuthenticationController {
     @Operation(summary = "Register as a new user")
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<AuthRegisterResponseDTO>> register(@Valid @RequestBody AuthRegisterRequest request) {
-        try {
-            AuthRegisterResponseDTO user = authService.register(request);
+        AuthRegisterResponseDTO user = authService.register(request);
 
-            ApiResponse<AuthRegisterResponseDTO> response = ApiResponse.<AuthRegisterResponseDTO>builder()
-                    .message("User created successfully")
-                    .status(HttpStatus.CREATED)
-                    .payload(user)
-                    .build();
+        ApiResponse<AuthRegisterResponseDTO> response = ApiResponse.<AuthRegisterResponseDTO>builder()
+                .message("User created successfully")
+                .status(HttpStatus.CREATED)
+                .payload(user)
+                .build();
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } catch (Exception e) {
-            ApiResponse<AuthRegisterResponseDTO> response = ApiResponse.<AuthRegisterResponseDTO>builder()
-                    .message("User creation failed")
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .build();
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @Operation(summary = "Login via credentials to get token")

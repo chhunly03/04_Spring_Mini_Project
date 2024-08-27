@@ -37,73 +37,35 @@ public class ArticleServiceImpl implements ArticleService {
         this.categoryArticleRepository = categoryArticleRepository;
     }
 
-//    @Override
-//    public DTOResponseArticle createArticle(ArticleRequest articleRequest) throws ForbiddenException {
-//        Integer userId = GetCurrentUser.userId();
-//        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("user not found"));
-//        if (user.getRole().equalsIgnoreCase("READER")) {
-//
-//            throw new ForbiddenException("Yor are not allowed to add articles");
-//
-//        }
-//        Article article = Article.builder()
-//                .title(articleRequest.getTitle())
-//                .description(articleRequest.getDescription())
-//                .createAt(LocalDateTime.now())
-//                .user(user)
-//                .build();
-//
-//        List<CategoryArticle> categoryArticles = new ArrayList<CategoryArticle>();
-//        for (Integer categoryId : articleRequest.getCategoryId()) {
-//            Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new NotFoundException("category not found"));
-//            CategoryArticle categoryArticle = new CategoryArticle();
-//            categoryArticle.setArticle(article);
-//            categoryArticle.setCategory(category);
-//            categoryArticles.add(categoryArticle);
-//
-//        }
-//        categoryArticles.forEach(categoryArticle -> categoryArticle.setArticle(article));
-//        article.setCategoryArticles(categoryArticles);
-//        return articleRepository.save(article).dtoResponse(userId);
-//
-//    }
-@Override
-public DTOResponseArticle createArticle(ArticleRequest articleRequest) throws ForbiddenException {
-    Integer userId = GetCurrentUser.userId();
-    User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
-
-    if (user.getRole().equalsIgnoreCase("READER")) {
-        throw new ForbiddenException("You are not allowed to add articles");
-    }
-
-    // Validate that CategoryId list only contains valid positive integers
-    for (Integer categoryId : articleRequest.getCategoryId()) {
-        if (categoryId == null || categoryId <= 0) {
-            throw new IllegalArgumentException("CategoryId list must contain only positive integers");
+    @Override
+    public DTOResponseArticle createArticle(ArticleRequest articleRequest) throws ForbiddenException {
+        Integer userId = GetCurrentUser.userId();
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("user not found"));
+        if (user.getRole().equalsIgnoreCase("READER")) {
+            throw new ForbiddenException("Yor are not allowed to add articles");
         }
+        Article article = Article.builder()
+                .title(articleRequest.getTitle())
+                .description(articleRequest.getDescription())
+                .createAt(LocalDateTime.now())
+                .user(user)
+                .build();
+
+        List<CategoryArticle> categoryArticles = new ArrayList<CategoryArticle>();
+        for (Integer categoryId : articleRequest.getCategoryId()) {
+            List<Category> category = categoryRepository.findCategoriesByUserUserId(userId);
+            Category categoryList = category.stream().filter(c -> c.getCategoryId().equals(categoryId)).findFirst().orElseThrow(() -> new NotFoundException("Category not found with id " + categoryId));
+            CategoryArticle categoryArticle = new CategoryArticle();
+            categoryArticle.setArticle(article);
+            categoryArticle.setCategory(categoryList);
+            categoryArticles.add(categoryArticle);
+
+        }
+        categoryArticles.forEach(categoryArticle -> categoryArticle.setArticle(article));
+        article.setCategoryArticles(categoryArticles);
+        return articleRepository.save(article).dtoResponse(userId);
+
     }
-
-    Article article = Article.builder()
-            .title(articleRequest.getTitle())
-            .description(articleRequest.getDescription())
-            .createAt(LocalDateTime.now())
-            .user(user)
-            .build();
-
-    List<CategoryArticle> categoryArticles = new ArrayList<>();
-    for (Integer categoryId : articleRequest.getCategoryId()) {
-        Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new NotFoundException("Category not found"));
-        CategoryArticle categoryArticle = new CategoryArticle();
-        categoryArticle.setArticle(article);
-        categoryArticle.setCategory(category);
-        categoryArticles.add(categoryArticle);
-    }
-
-    article.setCategoryArticles(categoryArticles);
-    return articleRepository.save(article).dtoResponse(userId);
-}
-
 
     @Override
     public List<ArticleResponse> getAllArticle(int page, int size, String sortBy, String direction) {

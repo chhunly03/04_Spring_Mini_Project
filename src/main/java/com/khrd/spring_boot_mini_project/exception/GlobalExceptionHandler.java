@@ -16,6 +16,17 @@ import java.util.TreeMap;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(NotFoundException.class)
+    public ProblemDetail handleNotFoundException(NotFoundException ex){
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.NOT_FOUND,
+                ex.getMessage()
+        );
+        problemDetail.setTitle("Not Found");
+        problemDetail.setProperty("dateTime", LocalDateTime.now());
+        return problemDetail;
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex, WebRequest request) {
         Map<String, Object> errors = new TreeMap<>();
@@ -39,15 +50,6 @@ public class GlobalExceptionHandler {
         errorResponse.put("error", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
-
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<Map<String, Object>> ResourceNotFoundException(Exception ex, WebRequest request) {
-//        Map<String, Object> errorResponse = new TreeMap<>();
-//        errorResponse.put("timestamp", LocalDateTime.now());
-//        errorResponse.put("error", "Article id not found.");
-//        errorResponse.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-//        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
 
     @ExceptionHandler(ResourceNotFoundException .class)
     public ResponseEntity<Map<String, Object>> ResourceNotFoundException (ResourceNotFoundException ex, WebRequest request) {
