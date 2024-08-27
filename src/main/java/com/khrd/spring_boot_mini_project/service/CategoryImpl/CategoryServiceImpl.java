@@ -27,7 +27,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryCreateDTO addCategory(CategoryRequest categoryRequest) {
-        return categoryRepository.save(categoryRequest.toEntity(0)).toResponseCreate();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        Integer getUser = customUserDetails.getUserId();
+
+        return categoryRepository.save(categoryRequest.toEntity(0, userRepository.findById(getUser).get())).toResponseCreate();
     }
 
     @Override

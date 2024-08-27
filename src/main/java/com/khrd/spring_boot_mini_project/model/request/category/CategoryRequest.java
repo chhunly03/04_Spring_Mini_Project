@@ -24,7 +24,7 @@ public class CategoryRequest {
     @Pattern(regexp = "^[a-zA-Z]+$", message = "The category name must be a single word with only alphabetic characters, no spaces, numbers, or special characters.")
     private String categoryName;
 
-    public Category toEntity(Integer amountOfArticles) {
-        return new Category(null, this.categoryName, amountOfArticles, LocalDateTime.now(), LocalDateTime.now(), null, null);
+    public Category toEntity(Integer amountOfArticles, User userId) {
+        return new Category(null, this.categoryName, amountOfArticles, LocalDateTime.now(), LocalDateTime.now(), userId, null);
     }
 }
