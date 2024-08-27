@@ -1,5 +1,6 @@
 package com.khrd.spring_boot_mini_project.service.CategoryImpl;
 
+import com.khrd.spring_boot_mini_project.exception.BadRequestException;
 import com.khrd.spring_boot_mini_project.exception.NotFoundException;
 import com.khrd.spring_boot_mini_project.model.entity.Category;
 import com.khrd.spring_boot_mini_project.model.userDetail.CustomUserDetails;
@@ -31,7 +32,11 @@ public class CategoryServiceImpl implements CategoryService {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         Integer getUser = customUserDetails.getUserId();
 
-        return categoryRepository.save(categoryRequest.toEntity(0, userRepository.findById(getUser).get())).toResponseCreate();
+        if (categoryRepository.findCategoryNameByUserId(categoryRequest.getCategoryName(), getUser) == null) {
+            return categoryRepository.save(categoryRequest.toEntity(0, userRepository.findById(getUser).get())).toResponseCreate();
+        }
+
+       throw new BadRequestException("Category name already exist");
     }
 
     @Override

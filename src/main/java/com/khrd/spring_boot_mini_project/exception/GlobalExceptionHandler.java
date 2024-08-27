@@ -1,6 +1,7 @@
 package com.khrd.spring_boot_mini_project.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -39,14 +40,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, Object>> ResourceNotFoundException(Exception ex, WebRequest request) {
-        Map<String, Object> errorResponse = new TreeMap<>();
-        errorResponse.put("timestamp", LocalDateTime.now());
-        errorResponse.put("error", "Article id not found.");
-        errorResponse.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<Map<String, Object>> ResourceNotFoundException(Exception ex, WebRequest request) {
+//        Map<String, Object> errorResponse = new TreeMap<>();
+//        errorResponse.put("timestamp", LocalDateTime.now());
+//        errorResponse.put("error", "Article id not found.");
+//        errorResponse.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+//        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     @ExceptionHandler(ResourceNotFoundException .class)
     public ResponseEntity<Map<String, Object>> ResourceNotFoundException (ResourceNotFoundException ex, WebRequest request) {
@@ -55,5 +56,16 @@ public class GlobalExceptionHandler {
         errorResponse.put("status", HttpStatus.CONFLICT.value());
         errorResponse.put("error", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ProblemDetail handleBadRequestException(BadRequestException ex){
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                ex.getMessage()
+        );
+        problemDetail.setTitle("Bad Request");
+        problemDetail.setProperty("dateTime", LocalDateTime.now());
+        return problemDetail;
     }
 }
